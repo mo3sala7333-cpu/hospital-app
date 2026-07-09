@@ -1,0 +1,131 @@
+{
+  "company": {
+    "name_ar": "شركة الحياة للخدمات الطبية",
+    "name_en": "Al Hayat Medical Services",
+    "tagline": "Building the Future of Healthcare",
+    "founded": null,
+    "presentation_type": "Investor Experience"
+  },
+
+  "branding": {
+    "primary_color": "#0B1F3A",
+    "secondary_color": "#0F766E",
+    "accent_color": "#D4AF37",
+    "background_color": "#050A12",
+    "text_color": "#FFFFFF"
+  },
+
+  "financial": {
+    "current_total_assets": 195000000,
+    "capital_increase_after_completion": 32000000,
+    "total_assets_after_completion": 227000000,
+
+    "brand_value": {
+      "included_in_assets": false,
+      "value": null,
+      "note": "Brand value is intentionally excluded from the total assets and will further increase the company's valuation."
+    },
+
+    "expected_share_value": 300000
+  },
+
+  "branches": [
+    {
+      "id": "hayat1",
+      "name": "الحياة ١",
+      "status": "Operational",
+      "assets": 33000000,
+      "folder": "hayat1"
+    },
+
+    {
+      "id": "hayat2",
+      "name": "الحياة ٢",
+      "status": "Operational",
+      "assets": 22000000,
+      "folder": "hayat2"
+    },
+
+    {
+      "id": "pharmacy",
+      "name": "صيدليات الحياة",
+      "status": "Operational",
+      "assets": 12000000,
+      "folder": "pharmacy"
+    },
+
+    {
+      "id": "tunisia",
+      "name": "الحياة تونس",
+      "status": "Operational",
+      "assets": 3000000,
+      "folder": "tunisia"
+    },
+
+    {
+      "id": "psychiatry",
+      "name": "الحياة للطب النفسي",
+      "status": "Operational",
+      "assets": 13000000,
+      "folder": "psychiatry"
+    },
+
+    {
+      "id": "new-hospital",
+      "name": "المبنى الجديد",
+      "status": "Under Construction",
+
+      "current_assets": 112000000,
+
+      "construction_state": "50% Finished",
+
+      "expected_additional_value_after_completion": 32000000,
+
+      "expected_total_value_after_completion": 144000000,
+
+      "floors": [
+        {
+          "name": "الدور الأرضي",
+          "value": 40000000
+        },
+        {
+          "name": "الدور الأول",
+          "value": 15000000
+        },
+        {
+          "name": "الدور الثاني",
+          "value": 15000000
+        },
+        {
+          "name": "الدور الثالث",
+          "value": 14000000
+        },
+        {
+          "name": "الدور الرابع",
+          "value": 14000000
+        },
+        {
+          "name": "الدور الخامس",
+          "value": 14000000
+        }
+      ],
+
+      "folder": "new-hospital"
+    }
+  ],
+
+  "presentation": {
+    "intro": {
+      "city_name": "الحياة للخدمات الطبية",
+      "style": "Cinematic"
+    },
+
+    "finale": {
+      "show_current_assets": true,
+      "show_capital_increase": true,
+      "show_assets_after_completion": true,
+      "show_brand_value": true,
+      "show_expected_share_value": true
+    }
+  }
+}
