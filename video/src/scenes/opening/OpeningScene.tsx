@@ -2,12 +2,15 @@ import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import { colors, gradients } from "../../theme/colors";
 import { CitySkyline } from "./CitySkyline";
+import { Sky } from "./Sky";
 import { StarField } from "./StarField";
 import { TitleReveal } from "./TitleReveal";
 import { OPENING } from "./timeline";
+import { getDroneMotion } from "../../lib/droneMotion";
 
 export const OpeningScene: React.FC = () => {
 	const frame = useCurrentFrame();
+	const drone = getDroneMotion(frame);
 
 	// --- Fly-in: the drone descends out of the night sky towards the city.
 	const flyInProgress = interpolate(frame, [0, OPENING.flyInEnd], [0, 1], {
@@ -15,13 +18,10 @@ export const OpeningScene: React.FC = () => {
 		extrapolateRight: "clamp",
 		easing: Easing.out(Easing.cubic),
 	});
-	const skylineBaseY = interpolate(flyInProgress, [0, 1], [520, 0]);
-	const skylineBaseScale = interpolate(flyInProgress, [0, 1], [1.5, 1]);
-	const skyFade = interpolate(frame, [0, 40], [0, 1], { extrapolateRight: "clamp" });
-	const starOpacity = interpolate(frame, [0, 30], [0, 0.9], { extrapolateRight: "clamp" });
-
-	// --- Gentle ambient drift throughout (handheld drone feel).
-	const driftX = Math.sin(frame / 95) * 18;
+	const skylineBaseY = interpolate(flyInProgress, [0, 1], [460, 0]);
+	const skylineBaseScale = interpolate(flyInProgress, [0, 1], [1.35, 1]);
+	const skyFade = interpolate(frame, [0, 50], [0, 1], { extrapolateRight: "clamp" });
+	const starOpacity = interpolate(frame, [0, 40], [0, 0.85], { extrapolateRight: "clamp" });
 
 	// --- Camera orbit around the floating title.
 	const orbitProgress = interpolate(frame, [OPENING.holdEnd, OPENING.orbitEnd], [0, 1], {
@@ -29,9 +29,8 @@ export const OpeningScene: React.FC = () => {
 		extrapolateRight: "clamp",
 		easing: Easing.inOut(Easing.cubic),
 	});
-	const orbitRotateY = interpolate(orbitProgress, [0, 0.55, 1], [0, 30, -14]);
-	const orbitScale = interpolate(orbitProgress, [0, 1], [1, 1.06]);
-	const orbitSkylineShift = interpolate(orbitProgress, [0, 1], [0, -70]);
+	const orbitRotateY = interpolate(orbitProgress, [0, 0.55, 1], [0, 26, -12]);
+	const orbitScale = interpolate(orbitProgress, [0, 1], [1, 1.05]);
 
 	// --- Dive down into the city, transitioning out of the opening scene.
 	const diveProgress = interpolate(frame, [OPENING.orbitEnd, OPENING.diveEnd], [0, 1], {
@@ -39,8 +38,8 @@ export const OpeningScene: React.FC = () => {
 		extrapolateRight: "clamp",
 		easing: Easing.in(Easing.cubic),
 	});
-	const diveSkylineY = interpolate(diveProgress, [0, 1], [0, 260]);
-	const diveSkylineScale = interpolate(diveProgress, [0, 1], [1, 2.3]);
+	const diveSkylineY = interpolate(diveProgress, [0, 1], [0, 300]);
+	const diveSkylineScale = interpolate(diveProgress, [0, 1], [1, 2.5]);
 	const titleOpacity = interpolate(frame, [OPENING.orbitEnd, OPENING.orbitEnd + 45], [1, 0], {
 		extrapolateLeft: "clamp",
 		extrapolateRight: "clamp",
@@ -51,40 +50,47 @@ export const OpeningScene: React.FC = () => {
 		[0, 0.85, 0],
 		{ extrapolateLeft: "clamp", extrapolateRight: "clamp" },
 	);
+	// Speed-linked blur on the nearest layer during the fast dive — a cheap
+	// stand-in for directional motion blur that sells velocity.
+	const diveSpeedBlur = interpolate(diveProgress, [0, 0.15, 1], [0, 3.2, 5.5], {
+		extrapolateLeft: "clamp",
+	});
 
-	const skylineTranslateY = skylineBaseY + orbitSkylineShift * 0 + diveSkylineY;
-	const skylineTranslateX = driftX;
-	const skylineScale = skylineBaseScale * (1 + (diveSkylineScale - 1));
+	const skylineTranslateY = skylineBaseY + drone.bobY + diveSkylineY;
+	const skylineScale = skylineBaseScale * diveSkylineScale;
+	const orbitDrift = orbitRotateY * 3.2;
 
 	return (
 		<AbsoluteFill style={{ background: colors.background, overflow: "hidden" }}>
-			<AbsoluteFill style={{ background: gradients.duskSky, opacity: skyFade }} />
-			<StarField opacity={starOpacity} />
+			<Sky opacity={skyFade} driftX={drone.driftX} />
+			<StarField opacity={starOpacity} driftX={drone.driftX} />
 
 			<CitySkyline
 				layer="far"
+				translateX={drone.driftX * 0.35 + orbitDrift * 0.5}
 				translateY={skylineTranslateY}
-				translateX={skylineTranslateX + orbitRotateY * 1.4}
 				scale={skylineScale}
-				parallax={0.4}
-				glowOpacity={interpolate(flyInProgress, [0, 1], [0, 0.6])}
+				rotateDeg={drone.bankDeg * 0.4}
+				glowOpacity={interpolate(flyInProgress, [0, 1], [0, 0.55])}
 			/>
 			<CitySkyline
 				layer="mid"
+				translateX={drone.driftX * 0.65 + orbitDrift * 0.85}
 				translateY={skylineTranslateY}
-				translateX={skylineTranslateX + orbitRotateY * 2.6}
 				scale={skylineScale}
-				parallax={0.7}
-				glowOpacity={interpolate(flyInProgress, [0, 1], [0, 0.85])}
+				rotateDeg={drone.bankDeg * 0.7}
+				glowOpacity={interpolate(flyInProgress, [0, 1], [0, 0.8])}
 			/>
-			<CitySkyline
-				layer="near"
-				translateY={skylineTranslateY}
-				translateX={skylineTranslateX + orbitRotateY * 4.2}
-				scale={skylineScale}
-				parallax={1}
-				glowOpacity={interpolate(flyInProgress, [0, 1], [0, 1])}
-			/>
+			<div style={{ position: "absolute", inset: 0, filter: diveSpeedBlur > 0.1 ? `blur(${diveSpeedBlur}px)` : undefined }}>
+				<CitySkyline
+					layer="near"
+					translateX={drone.driftX + orbitDrift * 1.3}
+					translateY={skylineTranslateY}
+					scale={skylineScale}
+					rotateDeg={drone.bankDeg}
+					glowOpacity={interpolate(flyInProgress, [0, 1], [0, 1])}
+				/>
+			</div>
 
 			<AbsoluteFill style={{ background: gradients.cityGlowFog }} />
 			<AbsoluteFill style={{ background: gradients.vignette }} />
