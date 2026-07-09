@@ -28,7 +28,7 @@ const LAYER_CONFIG: Record<
 		widthScale: 1,
 		gradientTop: "#3b5570",
 		gradientBottom: "#16273b",
-		blurPx: 2.2,
+		blurPx: 2.4,
 	},
 	mid: {
 		seed: 50,
@@ -39,7 +39,7 @@ const LAYER_CONFIG: Record<
 		widthScale: 1.05,
 		gradientTop: "#254058",
 		gradientBottom: "#0d1c2e",
-		blurPx: 0.8,
+		blurPx: 0.9,
 	},
 	near: {
 		seed: 120,

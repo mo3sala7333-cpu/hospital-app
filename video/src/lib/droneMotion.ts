@@ -13,8 +13,8 @@ export type DroneMotion = {
 };
 
 export const getDroneMotion = (frame: number): DroneMotion => {
-	const driftX = wave(frame, 480, 30, 0) + wave(frame, 191, 11, 1.3) + wave(frame, 77, 4, 2.7);
-	const bobY = wave(frame, 260, 8, 0.6) + wave(frame, 97, 3, 3.1);
-	const bankDeg = wave(frame, 420, 1.4, 0.4) + wave(frame, 150, 0.5, 2.1);
+	const driftX = wave(frame, 480, 26, 0) + wave(frame, 191, 10, 1.3) + wave(frame, 77, 4, 2.7);
+	const bobY = wave(frame, 260, 7, 0.6) + wave(frame, 97, 2.6, 3.1);
+	const bankDeg = wave(frame, 420, 1.2, 0.4) + wave(frame, 150, 0.4, 2.1);
 	return { driftX, bobY, bankDeg };
 };

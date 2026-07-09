@@ -1,11 +1,12 @@
 // All values in frames, assuming the composition's fps (60).
 export const OPENING = {
 	fps: 60,
-	flyInEnd: 8 * 60, // city settles into frame
-	titleStart: 4 * 60, // title begins its mask-wipe reveal, overlapping the tail of the fly-in
-	holdEnd: 14 * 60, // title sits steady
-	orbitEnd: 19 * 60, // camera orbits around the floating title
-	diveEnd: 23 * 60, // dive down into the city, ends on a flash-cut
+	establishEnd: 2 * 60, // the city plays alone first, cinematic breathing room
+	logoStart: 2 * 60,
+	titleStart: 4 * 60, // overlaps the tail of the logo reveal
+	holdStart: 8 * 60,
+	transitionStart: 13 * 60, // dive/accelerate into the flash-cut
+	diveEnd: 16 * 60,
 };
 
 export const OPENING_DURATION = OPENING.diveEnd;

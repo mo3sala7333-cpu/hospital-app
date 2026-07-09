@@ -74,12 +74,12 @@ export const generateCityLayer = (
 				});
 			}
 		} else if (detail === "detailed") {
-			const cols = Math.max(2, Math.floor(width / 26));
-			const rows = Math.max(2, Math.floor(height / 30));
+			const cols = Math.max(2, Math.floor(width / 30));
+			const rows = Math.max(2, Math.floor(height / 36));
 			for (let r = 0; r < rows; r++) {
 				for (let c = 0; c < cols; c++) {
 					const ws = s + 20 + r * 3.1 + c * 1.7;
-					if (rand(ws) > 0.62) {
+					if (rand(ws) > 0.68) {
 						const warm = rand(ws + 0.3) > 0.74;
 						glowWindows.push({
 							x: 10 + c * (width / cols),
